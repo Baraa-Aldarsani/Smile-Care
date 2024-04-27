@@ -7,13 +7,15 @@ class StringsEn extends Strings {
   String get signIn => 'LOGIN';
 
   @override
-  String get signUp => 'Sign Up';
+  String get signUp => 'Register';
 
   @override
   String get email => 'Email';
   
   @override
   String get password => 'Password';
+  @override
+  String get confirmPassword => 'Confirm Password';
 
   @override
   String get forgotPassword => 'Forget your password?';
