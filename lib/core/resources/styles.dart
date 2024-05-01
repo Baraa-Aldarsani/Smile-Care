@@ -71,6 +71,7 @@ ThemeData themeLight(BuildContext context) => ThemeData(
           subtitle: Palette.text,
           shadow: Palette.grey,
           red: Palette.red,
+          black: Palette.black,
         ),
       ],
     );
@@ -95,6 +96,7 @@ class EXTColors extends ThemeExtension<EXTColors> {
   final Color? blue;
   final Color? lavender;
   final Color? red;
+  final Color? black;
 
   const EXTColors({
     this.background,
@@ -116,6 +118,7 @@ class EXTColors extends ThemeExtension<EXTColors> {
     this.blue,
     this.lavender,
     this.red,
+    this.black,
   });
 
   @override
@@ -139,6 +142,7 @@ class EXTColors extends ThemeExtension<EXTColors> {
     Color? blue,
     Color? lavender,
     Color? red,
+    Color? black,
   }) {
     return EXTColors(
       background: background ?? this.background,
@@ -160,6 +164,7 @@ class EXTColors extends ThemeExtension<EXTColors> {
       blue: blue ?? this.blue,
       lavender: lavender ?? this.lavender,
       red: red ?? this.red,
+      black: black ?? this.black,
     );
   }
 
@@ -191,6 +196,7 @@ class EXTColors extends ThemeExtension<EXTColors> {
       lavender: Color.lerp(lavender, other.lavender, t),
       sky: Color.lerp(sky, other.sky, t),
       red: Color.lerp(red, other.red, t),
+      black: Color.lerp(black, other.black, t),
     );
   }
 }

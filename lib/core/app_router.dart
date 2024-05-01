@@ -7,7 +7,7 @@ import 'package:smile_care/feautre/common/home/home.dart';
 import 'package:smile_care/feautre/common/main/main.dart';
 import 'package:smile_care/feautre/feautre.dart';
 import 'package:smile_care/feautre/health_record/health_record.dart';
-import 'package:smile_care/feautre/profile/prodile.dart';
+import 'package:smile_care/feautre/profile/profile.dart';
 
 enum Routes {
   root("/"),
@@ -21,6 +21,7 @@ enum Routes {
   home("/feautre/common/home"),
   health_record("/feautre/health_record"),
   profile("/feautre/profile"),
+  edit_profile("/feautre/edit-profile"),
   ;
 
   const Routes(this.path);
@@ -52,23 +53,28 @@ class AppRoute {
         name: Routes.signUp.name,
         builder: (_, __) => SignUp(),
       ),
+      GoRoute(
+            path: Routes.edit_profile.path,
+            name: Routes.edit_profile.name,
+            builder: (context, state) =>  EditProfileScreen(),
+          ),
       ShellRoute(
         builder: (context, state, child) => MainScreen(child: child),
         routes: [
           GoRoute(
             path: Routes.home.path,
             name: Routes.home.name,
-            builder: (context, state) => const HomeScreen(),
+            builder: (context, state) => HomeScreen(),
           ),
           GoRoute(
             path: Routes.profile.path,
             name: Routes.profile.name,
-            builder: (context, state) => const ProfileScreen(),
+            builder: (context, state) =>  ProfileScreen(),
           ),
           GoRoute(
             path: Routes.health_record.path,
             name: Routes.health_record.name,
-            builder: (context, state) => const HealthRecordScreen(),
+            builder: (context, state) =>  HealthRecordScreen(),
           ),
         ],
       ),
