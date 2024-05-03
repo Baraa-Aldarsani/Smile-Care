@@ -19,7 +19,10 @@ enum Routes {
   main("/feautre/common/main"),
 
   home("/feautre/common/home"),
+
   health_record("/feautre/health_record"),
+  details_health_record("/feautre/details_health_record"),
+
   profile("/feautre/profile"),
   edit_profile("/feautre/edit-profile"),
   ;
@@ -54,10 +57,15 @@ class AppRoute {
         builder: (_, __) => SignUp(),
       ),
       GoRoute(
-            path: Routes.edit_profile.path,
-            name: Routes.edit_profile.name,
-            builder: (context, state) =>  EditProfileScreen(),
-          ),
+        path: Routes.edit_profile.path,
+        name: Routes.edit_profile.name,
+        builder: (context, state) => EditProfileScreen(),
+      ),
+      GoRoute(
+        path: Routes.details_health_record.path,
+        name: Routes.details_health_record.name,
+        builder: (context, state) => DetailsHealthRecordScreen(),
+      ),
       ShellRoute(
         builder: (context, state, child) => MainScreen(child: child),
         routes: [
@@ -69,17 +77,17 @@ class AppRoute {
           GoRoute(
             path: Routes.profile.path,
             name: Routes.profile.name,
-            builder: (context, state) =>  ProfileScreen(),
+            builder: (context, state) => ProfileScreen(),
           ),
           GoRoute(
             path: Routes.health_record.path,
             name: Routes.health_record.name,
-            builder: (context, state) =>  HealthRecordScreen(),
+            builder: (context, state) => HealthRecordScreen(),
           ),
         ],
       ),
     ],
-    initialLocation: Routes.boarding.path,
+    initialLocation: Routes.health_record.path,
     routerNeglect: true,
     debugLogDiagnostics: kDebugMode,
   );

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/common/main/main.dart';
@@ -14,12 +15,12 @@ class MainScreen extends StatelessWidget {
       init: MainController(),
       builder: (controller) => Scaffold(
         body: controller.currentScreen,
-        bottomNavigationBar: bottom(context),
+        bottomNavigationBar: bottomNavigationBa(context),
       ),
     );
   }
 
-  Widget bottom(BuildContext context) {
+  Widget bottomNavigationBa(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return GetBuilder(
       init: MainController(),

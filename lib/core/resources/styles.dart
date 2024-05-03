@@ -60,6 +60,7 @@ ThemeData themeLight(BuildContext context) => ThemeData(
               color: Palette.text,
             ),
       ),
+      
       brightness: Brightness.light,
       iconTheme: const IconThemeData(color: Palette.primary),
       visualDensity: VisualDensity.adaptivePlatformDensity,
