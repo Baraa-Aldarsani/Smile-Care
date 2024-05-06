@@ -22,7 +22,9 @@ class HealthRecordScreen extends StatelessWidget {
         child: Column(
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                context.push(Routes.doctors_sessions.path);
+              },
               child: Container(
                 height: 55,
                 decoration: BoxDecoration(

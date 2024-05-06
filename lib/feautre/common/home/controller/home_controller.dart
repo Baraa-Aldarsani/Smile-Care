@@ -12,8 +12,8 @@ class HomeController extends GetxController {
     update();
   }
   List<String> title = [
-    "Booking Appointment",
-    "Record of visits",
+    "Booking \nAppointment",
+    "Record of \nvisits",
     "My Appoitment",
     "Required materials",
     "Test results",
