@@ -34,6 +34,7 @@ abstract class Strings {
 
   String get email;
   String get password;
+  String get confirmPassword;
   String get forgotPassword;
   String get account;
 }

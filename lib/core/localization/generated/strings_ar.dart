@@ -14,7 +14,8 @@ class StringsAr extends Strings {
 
   @override
   String get password => 'كلمة السر';
-
+  @override
+  String get confirmPassword => 'أعد كلمة السر';
   @override
   String get forgotPassword => 'هل نسيت كلمة السر؟';
 

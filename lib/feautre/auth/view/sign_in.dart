@@ -37,7 +37,7 @@ class SignIn extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 150.h),
+              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 120.h),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -53,7 +53,7 @@ class SignIn extends StatelessWidget {
                                   .extension<EXTColors>()!
                                   .buttonText),
                     ),
-                    SizedBox(height: 20.h),
+                    SizedBox(height: 50.h),
                     CustomTextField(
                       title: Strings.of(context)?.email ?? "Email",
                       icon: Icons.email,
@@ -95,9 +95,9 @@ class SignIn extends StatelessWidget {
                       child: ElevatedBtn(
                         title: Strings.of(context)?.signIn ?? "LOGIN",
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            context.push(Routes.boarding.path);
-                          }
+                          // if (_formKey.currentState!.validate()) {
+                            context.push(Routes.home.path);
+                          // }
                         },
                         width: 150.w,
                         height: 45.h,
