@@ -17,5 +17,7 @@ class Palette {
   static const Color text = Color(0xff4c4f69);
 
   static const Color red = Color(0xffD24242);
+
+  static const Color black = Color(0xff000000);
   
 }
