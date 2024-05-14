@@ -1,14 +1,13 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/common/main/main.dart';
 
 class MainScreen extends StatelessWidget {
-  MainScreen({super.key, required this.child});
-  final Widget child;
+  const MainScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder(

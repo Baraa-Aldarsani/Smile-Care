@@ -1,8 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
+import 'package:smile_care/feautre/health_record/health_record.dart';
 
 class PatientSessions extends StatelessWidget {
   PatientSessions({super.key});
@@ -67,7 +68,7 @@ class PatientSessions extends StatelessWidget {
         itemCount: person.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {
-            context.push(Routes.session_summary.path);
+            Get.to(SessionSummary());
           },
           child: Container(
             color: index + 1 < colors.length

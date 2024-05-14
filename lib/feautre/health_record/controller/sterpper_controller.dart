@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/health_record/health_record.dart';
@@ -113,7 +112,7 @@ class StepperController extends GetxController {
           actions: [
             InkWell(
               onTap: () {
-                context.pop();
+                Get.back();
                 nameMedicine.clear();
                 oneImage = null;
               },
@@ -127,7 +126,7 @@ class StepperController extends GetxController {
               onTap: () {
                 if (oneImage != null && nameMedicine.text.isNotEmpty) {
                   addMedicineToList(nameMedicine.text, oneImage!);
-                  context.pop();
+                  Get.back();
                   nameMedicine.clear();
                   oneImage = null;
                 }

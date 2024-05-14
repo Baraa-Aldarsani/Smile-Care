@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_care/core/core.dart';
+import 'package:smile_care/feautre/auth/auth.dart';
 
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});
@@ -14,7 +16,7 @@ class OnBoarding extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.asset("assets/images/logo.png"),
+            Image.asset(Images.logoBoarding),
             Text(
               "Welcome to the Department of Dentistry at Damascus University",
               textAlign: TextAlign.center,
@@ -31,8 +33,10 @@ class OnBoarding extends StatelessWidget {
             ElevatedBtn(
               height: 45.h,
               width: 250.w,
-              onPressed: () {
-                context.go(Routes.signIn.path);
+              onPressed: () async {
+                SharedPreferences pref = await SharedPreferences.getInstance();
+                pref.setString("pref", "checkPref");
+                Get.to(SignIn());
               },
               title: 'Get Started',
             ),

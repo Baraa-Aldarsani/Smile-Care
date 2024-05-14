@@ -16,4 +16,11 @@ class Images {
     "assets/images/dental-files.png",
     "assets/images/tooth.png",
   ];
+
+  static List<String> slider = [
+    'assets/images/slider1.jfif',
+    'assets/images/slider2.jfif',
+    'assets/images/slider3.jfif',
+    'assets/images/slider4.jfif',
+  ];
 }

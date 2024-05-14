@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   int counter = 0;
+  RxInt selectedMaterila = (-1).obs;
   increase() {
     counter < 3 ? counter++ : counter = 0;
     update();

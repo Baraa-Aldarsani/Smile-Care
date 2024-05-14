@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smile_care/feautre/feautre.dart';
 
 import '../../../core/core.dart';
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});
-  final _controller = Get.put(AuthController());
+  final AuthController _controller = Get.put(AuthController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -57,19 +57,18 @@ class SignUp extends StatelessWidget {
                     ),
                     SizedBox(height: 50.h),
                     CustomTextField(
+                      controller: _controller.emailController,
                       title: Strings.of(context)?.email ?? "Email",
                       icon: Icons.email,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Email cannot be empty';
                         }
-                        if (_controller.isValidEmail(value)) {
-                          return 'Please enter a valid email address';
-                        }
                       },
                     ),
                     SizedBox(height: 20.h),
                     CustomTextField(
+                      controller: _controller.passwordController,
                       title: Strings.of(context)?.password ?? "Password",
                       icon: Icons.lock,
                       obscureText: true,
@@ -80,13 +79,11 @@ class SignUp extends StatelessWidget {
                         if (value.length < 8) {
                           return 'Password must be at least 8 characters long';
                         }
-                        if (_controller.isValidPassword(value)) {
-                          return 'Password must contain at least one letter and one number';
-                        }
                       },
                     ),
                     SizedBox(height: 20.h),
                     CustomTextField(
+                      controller: _controller.confirmPasswordController,
                       title: Strings.of(context)?.confirmPassword ??
                           "Confirm Password",
                       icon: Icons.lock,
@@ -98,9 +95,6 @@ class SignUp extends StatelessWidget {
                         if (value.length < 8) {
                           return 'Password must be at least 8 characters long';
                         }
-                        if (_controller.isValidPassword(value)) {
-                          return 'Password must contain at least one letter and one number';
-                        }
                       },
                     ),
                     SizedBox(height: 50.h),
@@ -109,9 +103,12 @@ class SignUp extends StatelessWidget {
                       child: ElevatedBtn(
                         title: Strings.of(context)?.signUp ?? "Register",
                         onPressed: () {
-                          // if (_formKey.currentState!.validate()) {
-                          context.push(Routes.signUp.path);
-                          // }
+                          if (_formKey.currentState!.validate()) {
+                            EasyLoading.show(
+                                status: 'loading...',
+                                maskType: EasyLoadingMaskType.black);
+                            _controller.createAccount();
+                          }
                         },
                         width: 150.w,
                         height: 45.h,
@@ -122,13 +119,13 @@ class SignUp extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          Strings.of(context)?.account ??
-                              "have an account? ",
+                          Strings.of(context)?.account ?? "have an account? ",
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         InkWell(
                           onTap: () {
-                            context.push(Routes.signIn.path);
+                            _controller.clearData();
+                            Get.to(SignIn());
                           },
                           child: Text(
                             Strings.of(context)?.signUp ?? "Sign In",
