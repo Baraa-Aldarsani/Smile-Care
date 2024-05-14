@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
+import 'package:smile_care/feautre/health_record/health_record.dart';
 
 class DoctorsSessions extends StatelessWidget {
   const DoctorsSessions({super.key});
@@ -32,7 +33,7 @@ class DoctorsSessions extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                context.push(Routes.patient_sessions.path);
+                Get.to(PatientSessions());
               },
               child: _bodyWidget(context),
             ),

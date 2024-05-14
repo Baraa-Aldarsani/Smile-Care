@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/common/home/home.dart';
+import 'package:smile_care/feautre/common/home/view/my_appointment.dart';
+import 'package:smile_care/feautre/common/home/view/record_of_visits.dart';
+import 'package:smile_care/feautre/common/home/view/required_materials.dart';
+import 'package:smile_care/feautre/common/home/view/test_results.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -40,10 +43,8 @@ class HomeScreen extends StatelessWidget {
               child: PageView(
                 controller: controllerSlider.pageController,
                 children: <Widget>[
-                  Image.asset('assets/images/Appoitment.png'),
-                  Image.asset('assets/images/Capture.png'),
-                  Image.asset('assets/images/profile.png'),
-                  Image.asset('assets/images/Frame.png'),
+                  for (int i = 0; i < Images.slider.length; i++)
+                    Image.asset(Images.slider[i], fit: BoxFit.cover),
                 ],
               ),
             ),
@@ -112,19 +113,20 @@ class HomeScreen extends StatelessWidget {
   navigateTo(int index, BuildContext context) {
     switch (index) {
       case 1:
-        context.push(Routes.booking_appointment.path);
+        Get.to(BookingAppointment());
         break;
       case 2:
-        context.push(Routes.record_of_visits.path);
+        Get.to(RecordOfVisits());
         break;
       case 3:
-        context.push(Routes.my_appointment.path);
+        Get.to(MyAppointment());
         break;
       case 4:
-        context.push(Routes.required_materials.path);
+        Get.to(RequiredMaterials());
         break;
+
       case 5:
-        context.push(Routes.test_results.path);
+        Get.to(TestResults());
         break;
 
       default:

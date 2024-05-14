@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/profile/profile.dart';
 
@@ -98,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
               title: "Edit Profile",
               icon: Icons.edit,
               onPressed: () {
-                context.push(Routes.edit_profile.path);
+                Get.to(EditProfileScreen());
               },
             ),
             MaterialBtn(
@@ -126,7 +125,9 @@ class ProfileScreen extends StatelessWidget {
               icon: Icons.logout,
               colorIcon: Palette.red,
               colorText: Palette.red,
-              onPressed: () {},
+              onPressed: () {
+                controller.logout();
+              },
             ),
           ],
         ),

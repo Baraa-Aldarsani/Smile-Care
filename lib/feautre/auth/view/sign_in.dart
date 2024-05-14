@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/feautre.dart';
 
@@ -55,19 +55,19 @@ class SignIn extends StatelessWidget {
                     ),
                     SizedBox(height: 50.h),
                     CustomTextField(
+                      controller: _controller.emailController,
+                      keyboardType: TextInputType.emailAddress,
                       title: Strings.of(context)?.email ?? "Email",
                       icon: Icons.email,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Email cannot be empty';
                         }
-                        if (_controller.isValidEmail(value)) {
-                          return 'Please enter a valid email address';
-                        }
                       },
                     ),
                     SizedBox(height: 20.h),
                     CustomTextField(
+                      controller: _controller.passwordController,
                       title: Strings.of(context)?.password ?? "Password",
                       icon: Icons.lock,
                       obscureText: true,
@@ -77,9 +77,6 @@ class SignIn extends StatelessWidget {
                         }
                         if (value.length < 8) {
                           return 'Password must be at least 8 characters long';
-                        }
-                        if (_controller.isValidPassword(value)) {
-                          return 'Password must contain at least one letter and one number';
                         }
                       },
                     ),
@@ -95,9 +92,12 @@ class SignIn extends StatelessWidget {
                       child: ElevatedBtn(
                         title: Strings.of(context)?.signIn ?? "LOGIN",
                         onPressed: () {
-                          // if (_formKey.currentState!.validate()) {
-                            context.push(Routes.home.path);
-                          // }
+                          if (_formKey.currentState!.validate()) {
+                            EasyLoading.show(
+                                status: 'loading...',
+                                maskType: EasyLoadingMaskType.black);
+                            _controller.signInWithEmailAndPassword();
+                          }
                         },
                         width: 150.w,
                         height: 45.h,
@@ -114,7 +114,8 @@ class SignIn extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            context.push(Routes.signUp.path);
+                            _controller.clearData();
+                            Get.to(SignUp());
                           },
                           child: Text(
                             Strings.of(context)?.signUp ?? "Sign up",

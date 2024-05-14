@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
+import 'package:smile_care/feautre/health_record/health_record.dart';
 
 class HealthRecordScreen extends StatelessWidget {
   const HealthRecordScreen({super.key});
@@ -23,7 +24,7 @@ class HealthRecordScreen extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                context.push(Routes.doctors_sessions.path);
+                Get.to(DoctorsSessions());
               },
               child: Container(
                 height: 55,
@@ -51,7 +52,7 @@ class HealthRecordScreen extends StatelessWidget {
             const SizedBox(height: 30),
             InkWell(
               onTap: () {
-                context.push(Routes.details_health_record.path);
+                Get.to(DetailsHealthRecordScreen());
               },
               child: Container(
                 height: 55,
