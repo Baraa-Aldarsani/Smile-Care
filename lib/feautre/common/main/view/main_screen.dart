@@ -34,7 +34,7 @@ class MainScreen extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(15))),
         height: size.width * .155,
         child: ListView.separated(
-          itemCount: 3,
+          itemCount: 4,
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.symmetric(horizontal: size.width * .024),
           itemBuilder: (context, index) => InkWell(
@@ -49,7 +49,7 @@ class MainScreen extends StatelessWidget {
               children: [
                 SizedBox(height: size.width * .0014),
                 Image.asset(Images.listOfIcons[index],
-                    scale: index == controller.currentIndex ? 0.9 : 1.2),
+                    scale: index == controller.currentIndex ? 1.001 : 1.4),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 2400),
                   curve: Curves.fastLinearToSlowEaseIn,
@@ -74,7 +74,7 @@ class MainScreen extends StatelessWidget {
             ),
           ),
           separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(width: 42);
+            return const SizedBox(width: 1);
           },
         ),
       ),

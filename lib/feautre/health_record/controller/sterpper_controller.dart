@@ -3,27 +3,47 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:smile_care/apis/apis.dart';
 import 'package:smile_care/core/core.dart';
-import 'package:smile_care/feautre/health_record/health_record.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class StepperController extends GetxController {
   var currentStep = 0.obs;
   var imageListRadiographs = <XFile>[].obs;
   var imageListMedicines = <MedicineModel>[].obs;
-  var selectedIndex = List<bool>.filled(4, false).obs;
+  var selectedIndex = List<bool>.filled(0, false).obs;
   final ImagePicker picker = ImagePicker();
   final ImagePicker pickerOneImage = ImagePicker();
-  List<String> checkBox = [
-    "ddddddddddd",
-    "ccccccccccc",
-    "eeeeeeeeeee",
-    "aaaaaaaaaaa",
-  ];
+  var viewDiseases = <DiseasesModel>[].obs;
+  List<DiseasesModel> viewDiseasesSubmit = [];
   XFile? oneImage;
   final TextEditingController nameMedicine = TextEditingController();
+  var healthRecord = HealthRecordModel();
+
+  @override
+  void onInit() {
+    fetchDiseases();
+    viewDiseases.listen((_) {
+      updateSubCheckedValues();
+    });
+    super.onInit();
+  }
+
+  void updateSubCheckedValues() {
+    selectedIndex.value = List<bool>.filled(viewDiseases.length, false);
+  }
+
   void stepContinue() {
     if (currentStep < 2) {
       currentStep++;
+    }
+    if (currentStep == 2) {
+      viewDiseasesSubmit.clear();
+      for (int i = 0; i < viewDiseases.length; i++) {
+        if (selectedIndex[i]) {
+          viewDiseasesSubmit.add(viewDiseases[i]);
+        }
+      }
     }
   }
 
@@ -31,6 +51,47 @@ class StepperController extends GetxController {
     if (currentStep > 0) {
       currentStep--;
     }
+  }
+
+  void showAlertDialog() {
+    showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Are you sure about the information entered in your health record?',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'No',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: Palette.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                'Yes',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: Palette.primary),
+              ),
+              onPressed: () async {
+                Get.back();
+                createHealthRecord();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> pickImagesRadiographs() async {
@@ -157,6 +218,40 @@ class StepperController extends GetxController {
   void toggleCheckbox(int index, bool? value) {
     if (value != null) {
       selectedIndex[index] = value;
+    }
+  }
+
+  Future<void> fetchDiseases() async {
+    try {
+      final List<DiseasesModel> fetchData =
+          await HealthRecordService.fetchDiseases();
+      viewDiseases.assignAll(fetchData);
+    } catch (e) {
+      print("Error fetch Diseases $e");
+    }
+  }
+
+  Future<void> createHealthRecord() async {
+    try {
+      await HealthRecordService.createHealthRecord(
+          imageListRadiographs, imageListMedicines, viewDiseasesSubmit);
+      update();
+    } catch (e) {
+      print("Error create Health Record $e");
+    }
+  }
+
+  RxBool isLoading = false.obs;
+  Future<void> getHealthRecordData() async {
+    try {
+      isLoading(true);
+      final HealthRecordModel fetchData =
+          await HealthRecordService.getHealthRecord();
+      healthRecord = fetchData;
+      isLoading(false);
+    } catch (e) {
+      isLoading(false);
+      rethrow;
     }
   }
 }

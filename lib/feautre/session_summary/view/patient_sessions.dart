@@ -3,48 +3,49 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
-import 'package:smile_care/feautre/health_record/health_record.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class PatientSessions extends StatelessWidget {
+  final SessionController _controller = Get.put(SessionController());
   PatientSessions({super.key});
-  List person = [
-    {
-      "name": "Maria",
-      "job": "Dentist",
-      "description": "Service Description ",
-      "onLine": "open",
-    },
-    {
-      "name": "Dana",
-      "job": "Dentist",
-      "description": "Service Description ",
-      "onLine": "close",
-    },
-    {
-      "name": "Baraa",
-      "job": "ITE",
-      "description": "Service Description ",
-      "onLine": "open",
-    },
-    {
-      "name": "Baraa",
-      "job": "ITE",
-      "description": "Service Description ",
-      "onLine": "open",
-    },
-    {
-      "name": "Baraa",
-      "job": "ITE",
-      "description": "Service Description ",
-      "onLine": "open",
-    },
-    {
-      "name": "Baraa",
-      "job": "ITE",
-      "description": "Service Description ",
-      "onLine": "open",
-    },
-  ];
+  // List person = [
+  //   {
+  //     "name": "Maria",
+  //     "job": "Dentist",
+  //     "description": "Service Description ",
+  //     "onLine": "open",
+  //   },
+  //   {
+  //     "name": "Dana",
+  //     "job": "Dentist",
+  //     "description": "Service Description ",
+  //     "onLine": "close",
+  //   },
+  //   {
+  //     "name": "Baraa",
+  //     "job": "ITE",
+  //     "description": "Service Description ",
+  //     "onLine": "open",
+  //   },
+  //   {
+  //     "name": "Baraa",
+  //     "job": "ITE",
+  //     "description": "Service Description ",
+  //     "onLine": "open",
+  //   },
+  //   {
+  //     "name": "Baraa",
+  //     "job": "ITE",
+  //     "description": "Service Description ",
+  //     "onLine": "open",
+  //   },
+  //   {
+  //     "name": "Baraa",
+  //     "job": "ITE",
+  //     "description": "Service Description ",
+  //     "onLine": "open",
+  //   },
+  // ];
   List<Color> colors = [
     Colors.white,
     Palette.primary,
@@ -65,10 +66,13 @@ class PatientSessions extends StatelessWidget {
         titleTextStyle: Theme.of(context).textTheme.headlineSmall,
       ),
       body: ListView.builder(
-        itemCount: person.length,
+        itemCount: _controller.sessionInfo.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {
-            Get.to(SessionSummary());
+            Get.to(SessionSummary(
+              sessionInfo: _controller.sessionInfo[index],
+            ));
+            _controller.fetchSessionInfo(1);
           },
           child: Container(
             color: index + 1 < colors.length
@@ -125,9 +129,12 @@ class PatientSessions extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("${person[index]['name']}"),
-                          Text("${person[index]['job']}"),
-                          Text("${person[index]['description']}"),
+                          Text(
+                              "${_controller.sessionInfo[index].supervisorModel.firstName} ${_controller.sessionInfo[index].supervisorModel.lastName}"),
+                          Text(_controller.sessionInfo[index].clinicModel
+                              .sectionModel.name),
+                          Text(_controller.sessionInfo[index]
+                              .detailsSessionModel.statusOfSession),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -138,13 +145,13 @@ class PatientSessions extends StatelessWidget {
                                     isSelected: true,
                                   ),
                                   Text(
-                                    "${person[index]['onLine']}",
+                                    _controller.sessionInfo[index]
+                                        .detailsSessionModel.statusOfSession,
                                   ),
                                 ],
                               ),
-                              const Text(
-                                "2 comment by student",
-                              ),
+                              Text(
+                                  "Evaluation : ${_controller.sessionInfo[index].detailsSessionModel.evaluation.toString()}"),
                             ],
                           ),
                         ],
