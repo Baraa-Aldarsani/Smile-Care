@@ -6,7 +6,7 @@ import 'package:smile_care/core/core.dart';
 class CustomTextField extends StatelessWidget {
   CustomTextField({
     super.key,
-    required this.title,
+    this.title,
     this.icon,
     this.validator,
     this.obscureText = false,
@@ -15,7 +15,7 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.onTap,
   });
-  final String title;
+  String? title;
   final IconData? icon;
   final dynamic validator;
   final bool obscureText;

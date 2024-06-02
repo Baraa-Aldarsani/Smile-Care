@@ -5,8 +5,9 @@ class Images {
   static String listMenue = "assets/images/list.png";
   static List<String> listOfIcons = [
     "assets/images/Appoitment.png",
+    "assets/images/sessinos.png",
     "assets/images/Frame.png",
-    "assets/images/profile.png"
+    "assets/images/profile.png",
   ];
   static List<String> image = [
     "assets/images/tooth.png",

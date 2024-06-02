@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
-import 'package:smile_care/feautre/health_record/health_record.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class DoctorsSessions extends StatelessWidget {
   const DoctorsSessions({super.key});
@@ -13,6 +13,10 @@ class DoctorsSessions extends StatelessWidget {
         backgroundColor: Palette.background,
         title: const Text("Doctors Sessions"),
         titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(Images.logoAuth),
+        ),
       ),
       body: ListView.separated(
         itemCount: 5,

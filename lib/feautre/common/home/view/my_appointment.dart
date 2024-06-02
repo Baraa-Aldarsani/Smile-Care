@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class MyAppointment extends StatelessWidget {
-  const MyAppointment({super.key});
-
+  MyAppointment({super.key});
+  final HomeController _controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +16,7 @@ class MyAppointment extends StatelessWidget {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        itemCount: 5,
+        itemCount: _controller.myAppointment.length,
         itemBuilder: (context, index) {
           return Container(
             height: 55,
@@ -33,17 +35,18 @@ class MyAppointment extends StatelessWidget {
               dense: true,
               textColor: Palette.black,
               title: Text(
-                "Monday",
+                _controller.formatDate(_controller
+                    .myAppointment[index].detailsSessionModel.history),
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontSize: 19,
                     ),
               ),
               subtitle: Text(
-                "27/12/2020",
+                _controller.myAppointment[index].detailsSessionModel.history,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               trailing: Text(
-                "01:30 PM",
+                "01:40",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),

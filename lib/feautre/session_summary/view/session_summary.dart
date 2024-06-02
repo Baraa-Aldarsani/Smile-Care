@@ -1,9 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:smile_care/core/core.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class SessionSummary extends StatelessWidget {
-  const SessionSummary({super.key});
-
+  const SessionSummary({super.key, required this.sessionInfo});
+  final SessionSummaryModel sessionInfo;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,13 +17,19 @@ class SessionSummary extends StatelessWidget {
       ),
       body: SingleChildScrollView(
           child: Column(
-        children: [Image.asset("assets/images/summary.png"), SessionForm()],
+        children: [
+          Image.asset("assets/images/summary.png"),
+          SessionForm(sessionInfo: sessionInfo),
+        ],
       )),
     );
   }
 }
 
 class SessionForm extends StatefulWidget {
+  final SessionSummaryModel sessionInfo;
+
+  const SessionForm({super.key, required this.sessionInfo});
   @override
   _SessionFormState createState() => _SessionFormState();
 }
@@ -33,10 +42,12 @@ class _SessionFormState extends State<SessionForm> {
       'Session': 'Details for Session 1',
       'Session Number': '1',
       'Student Name': 'Baraa Aldarsani',
-      'Student’s Comment': 'Finsh one session',
-      'Doctor Name': 'Dr. Ahmad Burhan',
-      "Doctor’s Comment": 'Good session',
-      "Session Time": '27/3/2024 : 08:30',
+      'Student’s Comment': widget.sessionInfo.detailsSessionModel.studentNotes,
+      'Doctor Name':
+          'Dr. ${widget.sessionInfo.supervisorModel.firstName} ${widget.sessionInfo.supervisorModel.lastName}',
+      "Doctor’s Comment":
+          widget.sessionInfo.detailsSessionModel.supervisorNotes,
+      "Session Time": widget.sessionInfo.detailsSessionModel.history,
     };
     return Text(details[session]!, style: const TextStyle(fontSize: 16));
   }
@@ -83,7 +94,7 @@ class _SessionFormState extends State<SessionForm> {
                           }
                         });
                       },
-                      icon:  Icon(
+                      icon: Icon(
                         _selectedSession == session ? Icons.remove : Icons.add,
                       ),
                     )
