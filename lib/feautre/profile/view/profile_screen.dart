@@ -5,7 +5,8 @@ import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/feautre.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  ProfileScreen({super.key});
+  final ProfileController _controller = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +19,11 @@ class ProfileScreen extends StatelessWidget {
         title: const Text("Profile"),
         titleTextStyle: Theme.of(context).textTheme.headlineSmall,
       ),
-      body: GetBuilder(
-        init: ProfileController(),
-        builder: (controller) => Padding(
+      body: Obx(() {
+        if (_controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return Padding(
           padding: const EdgeInsets.only(bottom: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
                     width: 120,
                     height: 120,
                     child: CachedNetworkImage(
-                      imageUrl: '${controller.profileData.image}',
+                      imageUrl: '${_controller.profileData.value.image}',
                       placeholder: (context, url) =>
                           const CircularProgressIndicator(),
                       errorWidget: (context, url, error) =>
@@ -51,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  "${controller.profileData.firstName ?? ''} ${controller.profileData.lastName ?? ''}",
+                  "${_controller.profileData.value.firstName ?? ''} ${_controller.profileData.value.lastName ?? ''}",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Theme.of(context).extension<EXTColors>()!.black),
                 ),
@@ -59,21 +62,21 @@ class ProfileScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  controller.profileData.email ?? '',
+                  _controller.profileData.value.email ?? '',
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  controller.profileData.birthday.toString(),
+                  _controller.profileData.value.birthday.toString(),
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  controller.profileData.gender.toString(),
+                  _controller.profileData.value.gender.toString(),
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ),
@@ -86,8 +89,8 @@ class ProfileScreen extends StatelessWidget {
                 title: "Edit Profile",
                 icon: Icons.edit,
                 onPressed: () {
-                  Get.to(
-                      EditProfileScreen(profileModel: controller.profileData));
+                  Get.to(EditProfileScreen(
+                      profileModel: _controller.profileData.value));
                 },
               ),
               MaterialBtn(
@@ -116,13 +119,13 @@ class ProfileScreen extends StatelessWidget {
                 colorIcon: Palette.red,
                 colorText: Palette.red,
                 onPressed: () {
-                  controller.logout();
+                  _controller.logout();
                 },
               ),
             ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

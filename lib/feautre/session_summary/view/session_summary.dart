@@ -5,8 +5,10 @@ import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/feautre.dart';
 
 class SessionSummary extends StatelessWidget {
-  const SessionSummary({super.key, required this.sessionInfo});
+  const SessionSummary(
+      {super.key, required this.sessionInfo, required this.student});
   final SessionSummaryModel sessionInfo;
+  final StudentModel student;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +21,7 @@ class SessionSummary extends StatelessWidget {
           child: Column(
         children: [
           Image.asset("assets/images/summary.png"),
-          SessionForm(sessionInfo: sessionInfo),
+          SessionForm(sessionInfo: sessionInfo, student: student),
         ],
       )),
     );
@@ -28,8 +30,9 @@ class SessionSummary extends StatelessWidget {
 
 class SessionForm extends StatefulWidget {
   final SessionSummaryModel sessionInfo;
-
-  const SessionForm({super.key, required this.sessionInfo});
+  final StudentModel student;
+  const SessionForm(
+      {super.key, required this.sessionInfo, required this.student});
   @override
   _SessionFormState createState() => _SessionFormState();
 }
@@ -41,13 +44,13 @@ class _SessionFormState extends State<SessionForm> {
     Map<String, String> details = {
       'Session': 'Details for Session 1',
       'Session Number': '1',
-      'Student Name': 'Baraa Aldarsani',
+      'Student Name': "${widget.student.fName} ${widget.student.lName}",
       'Student’s Comment': widget.sessionInfo.detailsSessionModel.studentNotes,
       'Doctor Name':
-          'Dr. ${widget.sessionInfo.supervisorModel.firstName} ${widget.sessionInfo.supervisorModel.lastName}',
+          'Dr. ${widget.sessionInfo.supervisorModel!.firstName} ${widget.sessionInfo.supervisorModel!.lastName}',
       "Doctor’s Comment":
           widget.sessionInfo.detailsSessionModel.supervisorNotes,
-      "Session Time": widget.sessionInfo.detailsSessionModel.history,
+      "Session Time": "${widget.sessionInfo.detailsSessionModel.history} || ${widget.sessionInfo.detailsSessionModel.time}",
     };
     return Text(details[session]!, style: const TextStyle(fontSize: 16));
   }

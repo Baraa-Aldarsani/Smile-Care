@@ -6,3 +6,5 @@ export 'view/my_appointment.dart';
 export 'view/record_of_visits.dart';
 export 'view/required_materials.dart';
 export 'view/test_results.dart';
+export 'model/required_material_model.dart';
+export 'model/archive_appointment_model.dart';

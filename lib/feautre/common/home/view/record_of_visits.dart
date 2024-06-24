@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class RecordOfVisits extends StatelessWidget {
-  const RecordOfVisits({super.key});
-
+  RecordOfVisits({super.key});
+  final HomeController _controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +16,7 @@ class RecordOfVisits extends StatelessWidget {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        itemCount: 5,
+        itemCount: _controller.archiveApp.length,
         itemBuilder: (context, index) {
           return Container(
             height: 55,
@@ -33,17 +35,17 @@ class RecordOfVisits extends StatelessWidget {
               dense: true,
               textColor: Palette.black,
               title: Text(
-                "Monday",
+                _controller.formatDate(_controller.archiveApp[index].date),
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontSize: 19,
                     ),
               ),
               subtitle: Text(
-                "27/12/2020",
+                _controller.archiveApp[index].date,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               trailing: Text(
-                "01:30 PM",
+                _controller.formatDateTime(_controller.archiveApp[index].time),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),

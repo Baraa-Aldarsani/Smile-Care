@@ -14,8 +14,6 @@ class Images {
     "assets/images/Appoitment_White.png",
     "assets/images/circular-alarm-clock-tool.png",
     "assets/images/result.png",
-    "assets/images/dental-files.png",
-    "assets/images/tooth.png",
   ];
 
   static List<String> slider = [
