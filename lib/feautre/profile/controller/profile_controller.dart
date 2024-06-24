@@ -2,12 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:smile_care/apis/apis.dart';
 import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/feautre.dart';
 
 class ProfileController extends GetxController {
-  var profileData = ProfileModel();
+  var profileData = ProfileModel().obs;
   @override
   void onInit() {
     fetchUser();
@@ -22,14 +23,17 @@ class ProfileController extends GetxController {
     );
   }
 
+  RxBool isLoading = false.obs;
   Future<void> fetchUser() async {
+    isLoading.value = true;
     try {
-      final ProfileModel fetchedUser = await ProfileService.getUserInfo();
-      profileData = fetchedUser;
+      final fetchedUser = await ProfileService.getUserInfo();
+      profileData.value = fetchedUser;
       update();
-     
     } catch (e) {
       print('Error fetching user: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 }

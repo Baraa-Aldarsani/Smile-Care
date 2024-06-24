@@ -1,13 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smile_care/core/core.dart';
-import 'package:smile_care/feautre/common/home/controller/home_controller.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class RequiredMaterials extends StatelessWidget {
   RequiredMaterials({super.key});
   final HomeController _controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
+    print(_controller.requiredMaterial.length);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.background,
@@ -16,7 +19,7 @@ class RequiredMaterials extends StatelessWidget {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        itemCount: 5,
+        itemCount: _controller.requiredMaterial.length,
         itemBuilder: (context, index) {
           return Obx(
             () => Column(
@@ -39,8 +42,23 @@ class RequiredMaterials extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
-                        child: Text("Rubber bowl",
-                            style: Theme.of(context).textTheme.bodyLarge),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _controller.requiredMaterial[index].name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                            ),
+                            Text(
+                                "${_controller.requiredMaterial[index].studentFName} ${_controller.requiredMaterial[index].studentLName}")
+                          ],
+                        ),
                       ),
                       InkWell(
                         onTap: () {
@@ -78,6 +96,32 @@ class RequiredMaterials extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: _controller.requiredMaterial[index].image,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: Palette.grey,
+                        highlightColor: Palette.primaryLight,
+                        child: Container(
+                          height: 62,
+                          decoration: const BoxDecoration(
+                            color: Palette.primaryLight,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Shimmer.fromColors(
+                        baseColor: Palette.grey,
+                        highlightColor: Palette.primaryLight,
+                        child: Container(
+                          height: 62,
+                          decoration: const BoxDecoration(
+                            color: Palette.primaryLight,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                        ),
+                      ),
+                      fit: BoxFit.fill,
                     ),
                   )
               ],

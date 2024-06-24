@@ -11,7 +11,7 @@ class HomeController extends GetxController {
   int counter = 0;
   RxInt selectedMaterila = (-1).obs;
   final TextEditingController reason = TextEditingController();
-
+  var requiredMaterial = <RequiredMaterialModel>[].obs;
   var myAppointment = <SessionSummaryModel>[].obs;
   increase() {
     counter < 3 ? counter++ : counter = 0;
@@ -26,6 +26,8 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     fetchMyAppointement();
+    getRequiredMaterial();
+    getArchiveApp();
     super.onInit();
   }
 
@@ -34,8 +36,6 @@ class HomeController extends GetxController {
     "Record of \nvisits",
     "My Appoitment",
     "Required materials",
-    "Test results",
-    "",
   ];
 
   Future<void> bookAppointment(BuildContext context) async {
@@ -55,12 +55,16 @@ class HomeController extends GetxController {
     }
   }
 
+  RxBool isLoading = false.obs;
   Future<void> fetchMyAppointement() async {
     try {
+      isLoading.value = true;
       final fetchData = await HomeService.fetchDataMyAppointment();
       myAppointment.assignAll(fetchData);
     } catch (e) {
       print("Error Fetch My Appointment $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -68,5 +72,39 @@ class HomeController extends GetxController {
     DateTime date = DateTime.parse(history);
     history = DateFormat('EEEE').format(date);
     return history;
+  }
+
+  String formatDateTime(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String formattedTime = DateFormat('h:mm a').format(dateTime);
+    return formattedTime;
+  }
+
+  String formatTime(String timeString) {
+    DateTime dateTime = DateTime.parse('1970-01-01T$timeString');
+
+    String formattedTime = DateFormat('h:mm:ss a').format(dateTime);
+
+    return formattedTime;
+  }
+
+  Future<void> getRequiredMaterial() async {
+    try {
+      final List<RequiredMaterialModel> fetchData =
+          await HomeService.getRequiredMaterial();
+      requiredMaterial.value = fetchData;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  var archiveApp = <ArchiveAppModel>[].obs;
+  Future<void> getArchiveApp() async {
+    try {
+      final List<ArchiveAppModel> fetchData = await HomeService.getArchiveApp();
+      archiveApp.assignAll(fetchData);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

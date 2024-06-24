@@ -2,7 +2,7 @@ import 'package:smile_care/feautre/feautre.dart';
 
 class SessionSummaryModel {
   DetailsSessionModel detailsSessionModel;
-  SupervisorModel supervisorModel;
+  SupervisorModel? supervisorModel;
   ClinicModel clinicModel;
   ReferralModel referralModel;
   SessionSummaryModel({
@@ -15,7 +15,15 @@ class SessionSummaryModel {
   factory SessionSummaryModel.fromJson(Map<String, dynamic> json) {
     return SessionSummaryModel(
       detailsSessionModel: DetailsSessionModel.fromJson(json),
-      supervisorModel: SupervisorModel.fromJson(json['supervisor']),
+      supervisorModel: json['supervisor'] != null
+          ? SupervisorModel.fromJson(json['supervisor'])
+          : SupervisorModel(
+              firstName: 'No Suopervisor yet',
+              lastName: '',
+              gender: "",
+              id: 0,
+              type: "",
+            ),
       clinicModel: ClinicModel.fromJson(json['clinics']),
       referralModel: ReferralModel.fromJson(json['referrals']),
     );

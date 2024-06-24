@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
-import 'package:smile_care/feautre/common/home/home.dart';
-import 'package:smile_care/feautre/common/home/view/my_appointment.dart';
-import 'package:smile_care/feautre/common/home/view/record_of_visits.dart';
-import 'package:smile_care/feautre/common/home/view/required_materials.dart';
-import 'package:smile_care/feautre/common/home/view/test_results.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -60,15 +56,17 @@ class HomeScreen extends StatelessWidget {
                     ),
               ),
             ),
+            const SizedBox(height: 20),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 8,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 22,
                   ),
-                  itemCount: 6,
+                  itemCount: 4,
                   itemBuilder: (context, index) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
@@ -79,8 +77,8 @@ class HomeScreen extends StatelessWidget {
                             navigateTo(index + 1, context);
                           },
                           child: Container(
-                            height: 100,
-                            width: 100,
+                            height: 120,
+                            width: 120,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               color: Palette.primary,
@@ -113,20 +111,16 @@ class HomeScreen extends StatelessWidget {
   navigateTo(int index, BuildContext context) {
     switch (index) {
       case 1:
-        Get.to(BookingAppointment());
+        Get.to(() => BookingAppointment());
         break;
       case 2:
-        Get.to(RecordOfVisits());
+        Get.to(() =>  RecordOfVisits());
         break;
       case 3:
-        Get.to(MyAppointment());
+        Get.to(() => MyAppointment());
         break;
       case 4:
-        Get.to(RequiredMaterials());
-        break;
-
-      case 5:
-        Get.to(TestResults());
+        Get.to(() => RequiredMaterials());
         break;
 
       default:

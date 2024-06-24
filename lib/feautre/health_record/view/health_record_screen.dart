@@ -41,7 +41,7 @@ class HealthRecordScreen extends StatelessWidget {
                         ),
                   ),
                   child: Obx(
-                    ()=> Stepper(
+                    () => Stepper(
                       currentStep: controller.currentStep.value,
                       onStepContinue: controller.currentStep < 2
                           ? controller.stepContinue
@@ -60,15 +60,22 @@ class HealthRecordScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildSectionTitle(context, 'Radiographs'),
-                      buildAnimatedListRad(controller.healthRecord.radiographs!,
-                          radiographController),
-                      buildSectionTitle(context, 'Medicines'),
-                      buildAnimatedListMed(
-                          controller.healthRecord.medicine!, medicineController,
-                          isMedicine: true),
-                      buildSectionTitle(context, 'Diseases'),
-                      buildDiseaseContainer(controller.healthRecord.diseases!),
+                      if (controller.healthRecord.radiographs!.isNotEmpty)
+                        buildSectionTitle(context, 'Radiographs'),
+                      if (controller.healthRecord.radiographs!.isNotEmpty)
+                        buildAnimatedListRad(
+                            controller.healthRecord.radiographs!,
+                            radiographController),
+                      if (controller.healthRecord.medicine!.isNotEmpty)
+                        buildSectionTitle(context, 'Medicines'),
+                      if (controller.healthRecord.medicine!.isNotEmpty)
+                        buildAnimatedListMed(controller.healthRecord.medicine!,
+                            medicineController),
+                      if (controller.healthRecord.diseases!.isNotEmpty)
+                        buildSectionTitle(context, 'Diseases'),
+                      if (controller.healthRecord.diseases!.isNotEmpty)
+                        buildDiseaseContainer(
+                            controller.healthRecord.diseases!),
                     ],
                   ),
                 );
@@ -138,9 +145,8 @@ class HealthRecordScreen extends StatelessWidget {
         ],
       ),
       isActive: step.currentStep.value >= 0,
-      state: step.currentStep.value > 0
-          ? StepState.complete
-          : StepState.indexed,
+      state:
+          step.currentStep.value > 0 ? StepState.complete : StepState.indexed,
     );
   }
 
@@ -171,9 +177,8 @@ class HealthRecordScreen extends StatelessWidget {
         ),
       ),
       isActive: step.currentStep.value >= 1,
-      state: step.currentStep.value > 1
-          ? StepState.complete
-          : StepState.indexed,
+      state:
+          step.currentStep.value > 1 ? StepState.complete : StepState.indexed,
     );
   }
 
@@ -208,8 +213,7 @@ class HealthRecordScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Image.file(
-                            File(step
-                                .imageListMedicines[index].image.path),
+                            File(step.imageListMedicines[index].image.path),
                             fit: BoxFit.cover,
                             height: 75,
                             width: 80,
@@ -244,9 +248,8 @@ class HealthRecordScreen extends StatelessWidget {
         ],
       ),
       isActive: step.currentStep.value == 2,
-      state: step.currentStep.value > 2
-          ? StepState.complete
-          : StepState.indexed,
+      state:
+          step.currentStep.value > 2 ? StepState.complete : StepState.indexed,
     );
   }
 
@@ -295,8 +298,9 @@ class HealthRecordScreen extends StatelessWidget {
   }
 
   Widget buildAnimatedListMed(
-      List<GetMedicineModel> items, PageController controller,
-      {bool isMedicine = false}) {
+    List<GetMedicineModel> items,
+    PageController controller,
+  ) {
     return SizedBox(
       height: 178,
       child: PageView.builder(
@@ -321,19 +325,18 @@ class HealthRecordScreen extends StatelessWidget {
                       width: 310,
                       child: child,
                     ),
-                    if (isMedicine)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(items[index].name,
-                            style: const TextStyle(fontSize: 14)),
-                      )
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(items[index].name,
+                          style: const TextStyle(fontSize: 14)),
+                    )
                   ],
                 ),
               );
             },
             child: Card(
               margin: const EdgeInsets.symmetric(
-                  horizontal: 10), // تقليل المسافة الأفقية
+                  horizontal: 10),
               elevation: 4,
               child: Image.network(items[index].image, fit: BoxFit.cover),
             ),
@@ -347,7 +350,7 @@ class HealthRecordScreen extends StatelessWidget {
     return Wrap(
       children: diseases
           .map((disease) => Container(
-                margin: const EdgeInsets.all(8),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 decoration: BoxDecoration(

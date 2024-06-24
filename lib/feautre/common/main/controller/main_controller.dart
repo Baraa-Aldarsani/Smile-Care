@@ -20,7 +20,7 @@ class MainController extends GetxController {
         _currentScreen = HealthRecordScreen();
         break;
       case 1:
-        _currentScreen = DoctorsSessions();
+        _currentScreen = StudentSessions();
       case 2:
         _currentScreen = HomeScreen();
         break;
