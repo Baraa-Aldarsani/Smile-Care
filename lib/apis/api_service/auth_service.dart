@@ -8,7 +8,11 @@ class AuthService {
       String email, String password) async {
     const url = '$BASE_URL/auth/login';
     final body = jsonEncode({'email': email, 'password': password});
-    final headers = {'Content-Type': 'application/json'};
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': basicAuth
+    };
+
     final response =
         await http.post(Uri.parse(url), headers: headers, body: body);
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -22,7 +26,10 @@ class AuthService {
   static Future<UserModel> createAccount(String email, String password) async {
     const url = '$BASE_URL/auth/register';
     final body = jsonEncode({'email': email, 'password': password});
-    final headers = {'Content-Type': 'application/json'};
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': basicAuth
+    };
     final response =
         await http.post(Uri.parse(url), headers: headers, body: body);
     if (response.statusCode == 200 || response.statusCode == 201) {

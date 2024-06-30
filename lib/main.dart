@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
               ? const OnBoarding()
               : checkLogin
                   ? SignIn()
-                  : MainScreen(),
+                  : const MainScreen(),
         );
       },
     );

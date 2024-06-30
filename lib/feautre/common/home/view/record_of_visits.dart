@@ -11,7 +11,7 @@ class RecordOfVisits extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.background,
-        title: const Text("Record Of Visits"),
+        title: const Text("Diagnostic record"),
         titleTextStyle: Theme.of(context).textTheme.headlineSmall,
       ),
       body: ListView.separated(
@@ -45,7 +45,8 @@ class RecordOfVisits extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               trailing: Text(
-                _controller.formatDateTime(_controller.archiveApp[index].time),
+                _controller.formatTime(_controller.archiveApp[index].time),
+                // _controller.formatDateTime(_controller.archiveApp[index].time),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),

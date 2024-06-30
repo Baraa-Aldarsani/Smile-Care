@@ -40,6 +40,10 @@ class ProfileScreen extends StatelessWidget {
                     height: 120,
                     child: CachedNetworkImage(
                       imageUrl: '${_controller.profileData.value.image}',
+                      httpHeaders: {
+                        'X-Token': 'Bearer $tokens()',
+                        'Authorization': basicAuth
+                      },
                       placeholder: (context, url) =>
                           const CircularProgressIndicator(),
                       errorWidget: (context, url, error) =>

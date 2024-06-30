@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
 import 'package:smile_care/feautre/feautre.dart';
 
@@ -16,6 +17,12 @@ class SessionSummary extends StatelessWidget {
         backgroundColor: Palette.background,
         title: const Text("Session Summary"),
         titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+              Get.back();
+            },
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -50,7 +57,8 @@ class _SessionFormState extends State<SessionForm> {
           'Dr. ${widget.sessionInfo.supervisorModel!.firstName} ${widget.sessionInfo.supervisorModel!.lastName}',
       "Doctor’s Comment":
           widget.sessionInfo.detailsSessionModel.supervisorNotes,
-      "Session Time": "${widget.sessionInfo.detailsSessionModel.history} || ${widget.sessionInfo.detailsSessionModel.time}",
+      "Session Time":
+          "${widget.sessionInfo.detailsSessionModel.history} || ${widget.sessionInfo.detailsSessionModel.time}",
     };
     return Text(details[session]!, style: const TextStyle(fontSize: 16));
   }

@@ -9,9 +9,10 @@ class SessionSummaryService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = preferences.get('token') ?? 0;
     final response = await http.get(
-        Uri.parse(
-            '$BASE_URL/profile/patientSessionRelatedWithStudent?student_id=$id'),
-        headers: {'Authorization': 'Bearer $token'});
+      Uri.parse(
+          '$BASE_URL/profile/patientSessionRelatedWithStudent?student_id=$id'),
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
+    );
     if (response.statusCode == 200 || response.statusCode == 201) {
       final List<dynamic> data = json.decode(response.body)['data'];
       return data
@@ -27,9 +28,9 @@ class SessionSummaryService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = preferences.get('token') ?? 0;
     final response = await http.get(
-        Uri.parse('$BASE_URL/profile/patientRelatedWithStudent'),
-        headers: {'Authorization': 'Bearer $token'});
-    print(response.statusCode);
+      Uri.parse('$BASE_URL/profile/patientRelatedWithStudent'),
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
+    );
     if (response.statusCode == 200 || response.statusCode == 201) {
       final List<dynamic> nestedData = json.decode(response.body)['data'];
       List<dynamic> allStudent = [];

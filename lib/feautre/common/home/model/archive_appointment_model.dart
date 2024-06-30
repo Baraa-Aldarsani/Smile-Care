@@ -12,7 +12,8 @@ class ArchiveAppModel {
     return ArchiveAppModel(
       id: json['id'],
       date: json['date'],
-      time: json['deleted_at'],
+      // time: json['deleted_at'],
+      time: json['timeDiagnosis'],
     );
   }
 }

@@ -1,3 +1,16 @@
+buildscript {
+    ext.kotlin_version = '1.8.0' // أضف هذا السطر لتحديد نسخة Kotlin
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // أضف أي تبعيات أخرى هنا
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -16,3 +29,5 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+

@@ -10,7 +10,6 @@ class RequiredMaterials extends StatelessWidget {
   final HomeController _controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
-    print(_controller.requiredMaterial.length);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.background,
@@ -99,6 +98,10 @@ class RequiredMaterials extends StatelessWidget {
                     ),
                     child: CachedNetworkImage(
                       imageUrl: _controller.requiredMaterial[index].image,
+                      httpHeaders: {
+                        'X-Token': 'Bearer $tokens()',
+                        'Authorization': basicAuth
+                      },
                       placeholder: (context, url) => Shimmer.fromColors(
                         baseColor: Palette.grey,
                         highlightColor: Palette.primaryLight,

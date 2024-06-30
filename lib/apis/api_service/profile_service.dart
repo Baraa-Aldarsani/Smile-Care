@@ -13,8 +13,9 @@ class ProfileService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = preferences.get('token') ?? 0;
     final response = await http.get(
-        Uri.parse('$BASE_URL/profile/showProfileInfo'),
-        headers: {'Authorization': 'Bearer $token'});
+      Uri.parse('$BASE_URL/profile/showProfileInfo'),
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
+    );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonData = json.decode(response.body)['data'];
@@ -30,7 +31,8 @@ class ProfileService {
     final token = preferences.get('token') ?? 0;
     final request =
         http.MultipartRequest('POST', Uri.parse('$BASE_URL/profile/create'));
-    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Authorization'] = basicAuth;
+    request.headers['X-Token'] = 'Bearer $token';
     request.fields['first_name'] = profileModel.firstName!;
     request.fields['last_name'] = profileModel.lastName!;
     request.fields['gender'] = profileModel.gender!;
@@ -43,9 +45,10 @@ class ProfileService {
       var length = await imageFile.length();
       var multipartFile = http.MultipartFile('image_av', stream, length,
           filename: 'image_av$length.png');
-
       request.files.add(multipartFile);
     }
+
+
     final response = await request.send();
     if (response.statusCode == 200 || response.statusCode == 201) {
       final responseData = await response.stream.bytesToString();

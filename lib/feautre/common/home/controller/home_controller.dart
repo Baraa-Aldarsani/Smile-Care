@@ -33,7 +33,7 @@ class HomeController extends GetxController {
 
   List<String> title = [
     "Booking \nAppointment",
-    "Record of \nvisits",
+    "Diagnostic record",
     "My Appoitment",
     "Required materials",
   ];

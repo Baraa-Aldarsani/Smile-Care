@@ -1,12 +1,10 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smile_care/core/core.dart';
-import 'package:smile_care/feautre/profile/profile.dart';
+import 'package:smile_care/feautre/feautre.dart';
 
 class EditProfileScreen extends StatefulWidget {
   EditProfileScreen({super.key, required this.profileModel});
@@ -21,15 +19,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final ProfileController _controllerPP = Get.put(ProfileController());
 
   final TextEditingController firstName = TextEditingController();
-
   final TextEditingController lastName = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    firstName.text = widget.profileModel.firstName!;
-    lastName.text = widget.profileModel.lastName!;
-    _controller.dateController.text = widget.profileModel.birthday!;
+    firstName.text = widget.profileModel.firstName ?? ""; // Handle null value
+    lastName.text = widget.profileModel.lastName ?? ""; // Handle null value
+    _controller.dateController.text = widget.profileModel.birthday ?? ""; // Handle null value
   }
 
   @override
@@ -60,7 +57,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           height: 120,
                           child: _controller.image == null
                               ? CachedNetworkImage(
-                                  imageUrl: '${widget.profileModel.image}',
+                                  imageUrl: '${widget.profileModel.image ?? ''}', // Handle null value
+                                  httpHeaders: {
+                                    'X-Token': 'Bearer $tokens()',
+                                    'Authorization': basicAuth
+                                  },
                                   placeholder: (context, url) =>
                                       const CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>
@@ -101,20 +102,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(height: 30),
               CustomTextField(
                 controller: firstName,
+                title: 'First Name',
                 icon: Icons.person,
               ),
               const SizedBox(height: 30),
               CustomTextField(
                 controller: lastName,
+                title: 'Last Name',
                 icon: Icons.person,
               ),
               const SizedBox(height: 30),
               CustomTextField(
-                title: _controller.dateController.text,
+                title: _controller.dateController.text.isEmpty
+                    ? 'Select your date of birth'
+                    : _controller.dateController.text,
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value == null || value.isEmpty) {
                     return 'Please select your date of birthday';
                   }
+                  return null; // Add return null to satisfy validator return type
                 },
                 readOnly: true,
                 icon: Icons.date_range,
@@ -140,9 +146,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Container selectGender(
-    BuildContext context,
-  ) {
+  Container selectGender(BuildContext context) {
     return Container(
       height: 55,
       width: double.infinity,
@@ -165,6 +169,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             },
           );
         },
+        onSelected: (value) {
+          _controller.selectedGender.value = value;
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -176,7 +183,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   const SizedBox(width: 12),
                   Text(
                     _controller.selectedGender.value == -1
-                        ? widget.profileModel.gender!
+                        ? (widget.profileModel.gender ?? 'Select Gender') // Handle null value
                         : _controller.gender[_controller.selectedGender.value],
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
@@ -195,22 +202,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     widget.profileModel.lastName = lastName.text;
     widget.profileModel.birthday = _controller.dateController.text;
     widget.profileModel.gender = _controller.selectedGender.value == -1
-        ? widget.profileModel.gender!
+        ? (widget.profileModel.gender ?? '') // Handle null value
         : _controller.gender[_controller.selectedGender.value].toLowerCase();
+    
     File? imageFile;
     if (_controller.image != null) {
       imageFile = _controller.image;
     } else if (widget.profileModel.image != null &&
-        !Uri.tryParse(widget.profileModel.image.toString())!.isAbsolute) {
+        Uri.tryParse(widget.profileModel.image.toString())?.isAbsolute == true) { // Check if image URL is valid
       imageFile = File(widget.profileModel.image.toString());
     }
 
     if (imageFile != null) {
       await _controller.updateUserInfo(widget.profileModel, imageFile);
-      _controllerPP.fetchUser();
     } else {
       await _controller.updateUserInfo(widget.profileModel, null);
-      _controllerPP.fetchUser();
     }
+    _controllerPP.fetchUser(); // Fetch updated user info after update
   }
 }

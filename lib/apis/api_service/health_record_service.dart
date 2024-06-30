@@ -9,9 +9,10 @@ class HealthRecordService {
   static Future<List<DiseasesModel>> fetchDiseases() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = preferences.get('token') ?? 0;
-    final response = await http.get(Uri.parse('$BASE_URL/profile/viewDiseases'),
-        headers: {'Authorization': 'Bearer $token'});
-    print(response.statusCode);
+    final response = await http.get(
+      Uri.parse('$BASE_URL/profile/viewDiseases'),
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
+    );
     if (response.statusCode == 200 || response.statusCode == 201) {
       final List<dynamic> data = json.decode(response.body)['data'];
       return data
@@ -31,7 +32,8 @@ class HealthRecordService {
     final token = preferences.get('token') ?? 0;
     final request = http.MultipartRequest(
         'POST', Uri.parse('$BASE_URL/profile/createHealthRecord'));
-    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Authorization'] = basicAuth;
+    request.headers['X-Token'] = 'Bearer $token';
     int i = 0;
     for (var radiograph in imageListRadiographs) {
       var file = await http.MultipartFile.fromPath(
@@ -67,8 +69,9 @@ class HealthRecordService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = preferences.get('token') ?? 0;
     final response = await http.get(
-        Uri.parse('$BASE_URL/profile/viewHealthRecord'),
-        headers: {'Authorization': 'Bearer $token'});
+      Uri.parse('$BASE_URL/profile/viewHealthRecord'),
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
+    );
     final responseJson = json.decode(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (responseJson['status'] == false) {

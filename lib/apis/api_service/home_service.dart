@@ -10,7 +10,7 @@ class HomeService {
     final token = preferences.get('token') ?? 0;
     final response = await http.post(
       Uri.parse('$BASE_URL/profile/bookAppointment'),
-      headers: {'Authorization': 'Bearer $token'},
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
       body: {"reason": reason},
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -24,8 +24,9 @@ class HomeService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = preferences.get('token') ?? 0;
     final response = await http.get(
-        Uri.parse('$BASE_URL/profile/myAppointment'),
-        headers: {'Authorization': 'Bearer $token'});
+      Uri.parse('$BASE_URL/profile/myAppointment'),
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
+    );
     if (response.statusCode == 200 || response.statusCode == 201) {
       final List<dynamic> data = json.decode(response.body)['data']['sessions'];
       return data
@@ -41,8 +42,9 @@ class HomeService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = preferences.get('token') ?? 0;
     final response = await http.get(
-        Uri.parse('$BASE_URL/profile/toolsRequireds'),
-        headers: {'Authorization': 'Bearer $token'});
+      Uri.parse('$BASE_URL/profile/toolsRequireds'),
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
+    );
     if (response.statusCode == 200 || response.statusCode == 201) {
       final List<dynamic> data = json.decode(response.body)['data'];
       return data
@@ -58,8 +60,9 @@ class HomeService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final token = preferences.get('token') ?? 0;
     final response = await http.get(
-        Uri.parse('$BASE_URL/profile/archiveMyAppointment'),
-        headers: {'Authorization': 'Bearer $token'});
+      Uri.parse('$BASE_URL/profile/myAppointment'),
+      headers: {'X-Token': 'Bearer $token', 'Authorization': basicAuth},
+    );
     print(response.statusCode);
     if (response.statusCode == 200 || response.statusCode == 201) {
       final List<dynamic> data =
