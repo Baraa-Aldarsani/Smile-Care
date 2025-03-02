@@ -1,18 +1,28 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:smile_care/core/core.dart';
 
 class CustomTextField extends StatelessWidget {
-   CustomTextField({
+  CustomTextField({
     super.key,
-    required this.title,
+    this.title,
     this.icon,
     this.validator,
     this.obscureText = false,
+    this.readOnly = false,
+    this.keyboardType,
+    this.controller,
+    this.onTap,
   });
-  final String title;
+  String? title;
   final IconData? icon;
   final dynamic validator;
   final bool obscureText;
+  var controller;
+  final bool readOnly;
+  final TextInputType? keyboardType;
+  var onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +32,14 @@ class CustomTextField extends StatelessWidget {
           color: Color(0xffF1FCFE),
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: TextFormField(
+        onTap: onTap,
+        controller: controller,
+        readOnly: readOnly,
         cursorColor: Palette.primary,
         validator: validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         obscureText: obscureText,
+        keyboardType: keyboardType,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
           hintText: title,

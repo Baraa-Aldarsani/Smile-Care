@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smile_care/feautre/common/home/home.dart';
+import 'package:smile_care/feautre/feautre.dart';
 import 'package:smile_care/feautre/health_record/health_record.dart';
-import 'package:smile_care/feautre/profile/prodile.dart';
 
 class MainController extends GetxController {
   int _selectedIndex = 0;
 
-  Widget _currentScreen = const HomeScreen();
+  Widget _currentScreen = HomeScreen();
 
   get selectedIndex => _selectedIndex;
 
@@ -18,14 +17,24 @@ class MainController extends GetxController {
     update();
     switch (index) {
       case 0:
-        _currentScreen = const HealthRecordScreen();
+        _currentScreen = HealthRecordScreen();
         break;
       case 1:
-        _currentScreen = const HomeScreen();
-        break;
+        _currentScreen = StudentSessions();
       case 2:
-        _currentScreen = const ProfileScreen();
+        _currentScreen = HomeScreen();
+        break;
+      case 3:
+        _currentScreen = ProfileScreen();
         break;
     }
+  }
+
+  int _currentIndex = 2;
+  get currentIndex => _currentIndex;
+
+  void selectedButton(int index) {
+    _currentIndex = index;
+    update();
   }
 }
